@@ -16,13 +16,6 @@ export class CreateWorkflowDto {
   @IsString()
   description: string;
 
-  @ApiProperty({
-    description: '워크플로우 생성자 ID',
-    example: 1,
-  })
-  @IsInt()
-  createdById: number;
-
   @ApiPropertyOptional({
     description: '워크플로우 생성 시간 (기본값은 서버 시간)',
     example: '2025-04-07T12:34:56.789Z',
