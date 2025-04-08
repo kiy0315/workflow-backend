@@ -8,6 +8,7 @@ import {
 import { Workflow } from 'src/workflow/workflow.entity';
 import { Task } from 'src/task/task.entity';
 import { TaskHistory } from 'src/taskHistory/taskHistory.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -17,9 +18,10 @@ export class User {
   @Column({ unique: true })
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
-
+  
   @Column()
   name: string;
 
