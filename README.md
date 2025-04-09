@@ -1,98 +1,86 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🛠️ Workflow Management Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> 효율적인 업무 흐름과 협업을 위한 **워크플로우 관리 백엔드 시스템**입니다.  
+> NestJS, TypeORM, MySQL을 기반으로 설계되었으며, Swagger 기반 API 문서화, 인증 시스템, 실시간 상태 관리 기능 등을 제공합니다.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 📌 목차
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- [프로젝트 개요](#프로젝트-개요)
+- [기술 스택](#기술-스택)
+- [주요 기능](#주요-기능)
+- [개발 이슈](#개발-이슈)
+- [라이센스](#라이센스)
 
-## Project setup
+---
 
-```bash
-$ npm install
-```
+## 📍 프로젝트 개요
 
-## Compile and run the project
+이 프로젝트는 다음과 같은 문제를 해결하기 위해 기획되었습니다:
 
-```bash
-# development
-$ npm run start
+- 복잡한 업무 흐름에서 각 단계(Step)별 할 일을 명확하게 관리하고자 함
+- 팀원에게 업무를 배정하고 진행 상황을 실시간으로 확인할 수 있도록 하기 위함
+- 일정한 프로세스(워크플로우)를 기반으로 업무를 자동화/시각화 가능하게 설계
 
-# watch mode
-$ npm run start:dev
+> 예: "기획 → 디자인 → 개발 → 테스트 → 완료" 같은 일련의 프로세스를 디지털화
 
-# production mode
-$ npm run start:prod
-```
+---
 
-## Run tests
+## 🛠️ 기술 스택
 
-```bash
-# unit tests
-$ npm run test
+| 분류       | 기술                                       |
+|------------|--------------------------------------------|
+| 프레임워크 | NestJS                                     |
+| 언어       | TypeScript                                 |
+| ORM        | TypeORM                                    |
+| DB         | MySQL                                      |
+| 인증       | JWT (passport-jwt, @nestjs/jwt)            |
+| 문서화     | Swagger (`@nestjs/swagger`)                |
+| 배포       | PM2, AWS EC2 (예정)                        |
+| 유틸       | class-validator, dotenv, config 등         |
 
-# e2e tests
-$ npm run test:e2e
+---
 
-# test coverage
-$ npm run test:cov
-```
+## ✨ 주요 기능
 
-## Deployment
+### ✅ 유저 (User)
+- 회원가입, 로그인
+- JWT 기반 인증/인가
+- Swagger 토큰 인증 적용
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### ✅ 워크플로우 (Workflow)
+- 워크플로우 생성 / 조회 / 수정 / 삭제
+- 각 워크플로우는 여러 개의 Step을 포함
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### ✅ 스텝 (Step)
+- 워크플로우 내에서 순차적 단계 생성 가능
+- Step별 Task 관리 기능
+- Step 삭제 시 Task는 NULL 처리
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+### ✅ 할 일(Task)
+- 할 일 생성 / 조회 / 수정 / 삭제
+- 할 일에 담당자(assignedTo), 현재 Step 지정 가능
+- 완료 여부(isCompleted) 업데이트 가능
+- Task → History 저장 구조 설계
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### ✅ 인증 및 보안
+- JWT 기반 유저 인증 및 보호
+- 비밀번호 해시 처리 (bcrypt)
+- 로그인 시 이메일 & 비밀번호 일치 여부 확인
 
-## Resources
+### ✅ Swagger 문서화
+- Swagger UI 통해 모든 엔드포인트 테스트 가능
+- DTO 기반 예시 자동 생성
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 🐞 개발 이슈
+- JWT 인증 처리에서 비밀번호 비교 시 bcrypt.compare() 오류 경험 → 해결
+- Task 생성 시 관계 테이블(ID만 받는 방식 → 객체로 변환해서 저장하는 로직 추가)
+- TypeORM에서 관계 조회 시 EntityPropertyNotFoundError 발생 → 관계 명칭 통일로 해결
+- Swagger에서 DTO 예시 자동화 처리
+- Step 삭제 시 Task의 외래키 NULL 처리 (onDelete: SET NULL)
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 🪪 라이센스
+해당 프로젝트는 MIT 라이센스를 따릅니다. 자유롭게 사용 및 수정 가능합니다.
