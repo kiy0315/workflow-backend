@@ -3,10 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TaskHistory } from './taskHistory.entity';
 import { CreateTaskHistoryDto } from './dto/createTaskHistory.dto';
-import { Task } from 'src/task/task.entity';
-import { Step } from 'src/step/step.entity';
-import { User } from 'src/user/user.entity';
-import { PaginationDto } from 'src/common/pagination/dto/pagination.dto';
+import { Task } from '../task/task.entity';
+import { Step } from '../step/step.entity';
+import { User } from '../user/user.entity';
+import { PaginationDto } from '../common/pagination/dto/pagination.dto';
 
 @Injectable()
 export class TaskHistoryService {

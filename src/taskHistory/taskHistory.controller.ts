@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Param, Body, Query } from '@nestjs/common';
 import { TaskHistoryService } from './taskHistory.service';
 import { CreateTaskHistoryDto } from './dto/createTaskHistory.dto';
-import { PaginationDto } from 'src/common/pagination/dto/pagination.dto';
+import { PaginationDto } from '../common/pagination/dto/pagination.dto';
 import { ApiTags, ApiOperation, ApiQuery, ApiParam } from '@nestjs/swagger';
 
 @ApiTags('TaskHistory')

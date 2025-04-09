@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { Workflow } from './workflow.entity';
 import { CreateWorkflowDto } from './dto/createWorkflow.dto';
 import { UpdateWorkflowDto } from './dto/updateWorkflow.dto';
-import { generateDuplicateName } from 'src/utils/generateDuplicateName';
-import { User } from 'src/user/user.entity';
+import { generateDuplicateName } from '../utils/generateDuplicateName';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class WorkflowService {
@@ -27,7 +27,7 @@ export class WorkflowService {
 
   async findAll(): Promise<Workflow[]> {
     return this.workflowRepository.find({
-      relations: ['steps'],
+      relations: ['step'],
       order: { createdAt: 'DESC' },
     });
   }
@@ -35,7 +35,7 @@ export class WorkflowService {
   async findOne(id: number): Promise<Workflow> {
     const workflow = await this.workflowRepository.findOne({
       where: { id },
-      relations: ['steps', 'steps.tasks'],
+      relations: ['step', 'step.task'],
     });
 
     if (!workflow)
@@ -71,11 +71,11 @@ export class WorkflowService {
         name,
         description: original.description,
         createdBy: original.createdBy,
-        steps: original.steps.map((step) => ({
+        step: original.step.map((step) => ({
           ...step,
           id: undefined,
           workflow: undefined,
-          tasks: step.tasks.map((task) => ({
+          task: step.task.map((task) => ({
             ...task,
             id: undefined,
             step: undefined,
@@ -95,13 +95,13 @@ export class WorkflowService {
     taskProgress: number;
   }> {
     const workflow = await this.findOne(id);
-    const steps = workflow.steps;
+    const steps = workflow.step;
 
     const totalSteps = steps.length;
     const completedSteps = steps.filter((step) => step.isCompleted).length;
     const stepProgress = totalSteps ? (completedSteps / totalSteps) * 100 : 0;
 
-    const allTasks = steps.flatMap((step) => step.tasks);
+    const allTasks = steps.flatMap((step) => step.task);
     const totalTasks = allTasks.length;
     const completedTasks = allTasks.filter((task) => task.isCompleted).length;
     const taskProgress = totalTasks ? (completedTasks / totalTasks) * 100 : 0;

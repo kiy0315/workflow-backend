@@ -6,10 +6,10 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Workflow } from 'src/workflow/workflow.entity';
-import { Step } from 'src/step/step.entity';
-import { User } from 'src/user/user.entity';
-import { TaskHistory } from 'src/taskHistory/taskHistory.entity';
+import { Workflow } from '../workflow/workflow.entity';
+import { Step } from '../step/step.entity';
+import { User } from '../user/user.entity';
+import { TaskHistory } from '../taskHistory/taskHistory.entity';
 
 @Entity()
 export class Task {
@@ -28,15 +28,14 @@ export class Task {
   @Column({ default: false })
   isCompleted: boolean;
 
-  @ManyToOne(() => Workflow, (workflow) => workflow.tasks)
+  @ManyToOne(() => Workflow, (workflow) => workflow.task)
   workflow: Workflow;
 
-  @OneToMany(() => Task, (task) => task.currentStep, {
-    cascade: true,
+  @ManyToOne(() => Step, (step) => step.task, {
+    onDelete: 'SET NULL',
   })
   currentStep: Step;
-
-  @ManyToOne(() => User, (user) => user.tasks)
+  @ManyToOne(() => User, (user) => user.task)
   assignedTo: User;
 
   @OneToMany(() => TaskHistory, (history) => history.task)

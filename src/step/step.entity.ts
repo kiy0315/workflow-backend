@@ -5,8 +5,8 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import { Workflow } from 'src/workflow/workflow.entity';
-import { Task } from 'src/task/task.entity';
+import { Workflow } from '../workflow/workflow.entity';
+import { Task } from '../task/task.entity';
 
 @Entity()
 export class Step {
@@ -21,15 +21,13 @@ export class Step {
 
   @Column()
   workflowId: number;
-  
+
   @Column({ default: false })
   isCompleted: boolean;
 
-  @ManyToOne(() => Workflow, (workflow) => workflow.steps, {
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(() => Workflow, (workflow) => workflow.step)
   workflow: Workflow;
 
   @OneToMany(() => Task, (task) => task.currentStep)
-  tasks: Task[];
+  task: Task[];
 }

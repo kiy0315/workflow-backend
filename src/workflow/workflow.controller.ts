@@ -12,8 +12,8 @@ import { WorkflowService } from './workflow.service';
 import { CreateWorkflowDto } from './dto/createWorkflow.dto';
 import { UpdateWorkflowDto } from './dto/updateWorkflow.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { User } from 'src/user/user.entity';
-import { GetUser } from 'src/common/decorators/user.decorator';
+import { User } from '../user/user.entity';
+import { GetUser } from '../common/decorators/user.decorator';
 
 @ApiTags('Workflow')
 @Controller('workflows')

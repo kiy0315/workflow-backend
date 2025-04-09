@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Step } from './step.entity';
 import { CreateStepDto } from './dto/createStep.dto';
 import { UpdateStepDto } from './dto/updateStep.dto';
-import { generateDuplicateName } from 'src/utils/generateDuplicateName';
+import { generateDuplicateName } from '../utils/generateDuplicateName';
 
 @Injectable()
 export class StepService {
@@ -19,13 +19,13 @@ export class StepService {
   }
 
   async findAll(): Promise<Step[]> {
-    return this.stepRepository.find({ relations: ['tasks'] });
+    return this.stepRepository.find({ relations: ['task'] });
   }
 
   async findOne(id: number): Promise<Step> {
     const step = await this.stepRepository.findOne({
       where: { id },
-      relations: ['tasks'],
+      relations: ['task'],
     });
 
     if (!step) throw new NotFoundException(`Step with ID ${id} not found`);
@@ -50,7 +50,7 @@ export class StepService {
   ): Promise<Step> {
     const step = await this.stepRepository.findOne({
       where: { id: stepId },
-      relations: ['tasks'],
+      relations: ['task'],
     });
 
     if (!step) throw new NotFoundException('Step not found');
@@ -67,7 +67,7 @@ export class StepService {
       order: step.order,
       isCompleted: false,
       workflowId: toWorkflowId,
-      tasks: step.tasks.map((task) => ({
+      task: step.task.map((task) => ({
         ...task,
         id: undefined,
         currentStep: undefined,

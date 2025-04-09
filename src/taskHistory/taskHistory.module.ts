@@ -3,9 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TaskHistoryService } from './taskHistory.service';
 import { TaskHistoryController } from './taskHistory.controller';
 import { TaskHistory } from './taskHistory.entity';
-import { Task } from 'src/task/task.entity';
-import { Step } from 'src/step/step.entity';
-import { User } from 'src/user/user.entity';
+import { Task } from '../task/task.entity';
+import { Step } from '../step/step.entity';
+import { User } from '../user/user.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([TaskHistory, Task, Step, User])],

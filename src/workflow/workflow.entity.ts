@@ -8,8 +8,8 @@ import {
 } from 'typeorm';
 
 import { Step } from '../step/step.entity';
-import { User } from 'src/user/user.entity';
-import { Task } from 'src/task/task.entity';
+import { User } from '../user/user.entity';
+import { Task } from '../task/task.entity';
 
 @Entity()
 export class Workflow {
@@ -29,8 +29,8 @@ export class Workflow {
   createdBy: User;
 
   @OneToMany(() => Step, (step) => step.workflow, { cascade: true })
-  steps: Step[];
+  step: Step[];
 
   @OneToMany(() => Task, (task) => task.currentStep, { cascade: true })
-  tasks: Task[];
+  task: Task[];
 }

@@ -5,9 +5,9 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Workflow } from 'src/workflow/workflow.entity';
-import { Task } from 'src/task/task.entity';
-import { TaskHistory } from 'src/taskHistory/taskHistory.entity';
+import { Workflow } from '../workflow/workflow.entity';
+import { Task } from '../task/task.entity';
+import { TaskHistory } from '../taskHistory/taskHistory.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -21,7 +21,7 @@ export class User {
   @Exclude()
   @Column()
   password: string;
-  
+
   @Column()
   name: string;
 
@@ -32,7 +32,7 @@ export class User {
   workflows: Workflow[];
 
   @OneToMany(() => Task, (task) => task.assignedTo)
-  tasks: Task[];
+  task: Task[];
 
   @OneToMany(() => TaskHistory, (history) => history.movedBy)
   taskHistories: TaskHistory[];
