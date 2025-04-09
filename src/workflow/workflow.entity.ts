@@ -22,15 +22,12 @@ export class Workflow {
   @Column('text')
   description: string;
 
-  @Column()
-  createdById: number;
-
   @CreateDateColumn()
   createdAt: Date;
 
   @ManyToOne(() => User, (user) => user.workflows)
   createdBy: User;
-  
+
   @OneToMany(() => Step, (step) => step.workflow, { cascade: true })
   steps: Step[];
 

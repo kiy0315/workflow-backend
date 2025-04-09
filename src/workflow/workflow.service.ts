@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { Workflow } from './workflow.entity';
 import { CreateWorkflowDto } from './dto/createWorkflow.dto';
 import { UpdateWorkflowDto } from './dto/updateWorkflow.dto';
+import { generateDuplicateName } from 'src/utils/generateDuplicateName';
+import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class WorkflowService {
@@ -12,8 +14,14 @@ export class WorkflowService {
     private readonly workflowRepository: Repository<Workflow>,
   ) {}
 
-  async create(createWorkflowDto: CreateWorkflowDto): Promise<Workflow> {
-    const workflow = this.workflowRepository.create(createWorkflowDto);
+  async create(
+    createWorkflowDto: CreateWorkflowDto,
+    user: User,
+  ): Promise<Workflow> {
+    const workflow = this.workflowRepository.create({
+      ...createWorkflowDto,
+      createdBy: user,
+    });
     return this.workflowRepository.save(workflow);
   }
 
@@ -53,12 +61,16 @@ export class WorkflowService {
   async duplicate(id: number): Promise<Workflow> {
     try {
       const original = await this.findOne(id);
-      const name = await this.generateDuplicateName(original.name);
+      const name = await generateDuplicateName(
+        this.workflowRepository,
+        original.name,
+        'name',
+      );
 
       const duplicate = this.workflowRepository.create({
         name,
         description: original.description,
-        createdById: original.createdById,
+        createdBy: original.createdBy,
         steps: original.steps.map((step) => ({
           ...step,
           id: undefined,
@@ -76,24 +88,6 @@ export class WorkflowService {
       console.error('워크플로우 복제 실패:', error);
       throw new Error('복제 중 오류가 발생했습니다');
     }
-  }
-
-  async generateDuplicateName(baseName: string): Promise<string> {
-    const existing = await this.workflowRepository
-      .createQueryBuilder('workflow')
-      .where('workflow.name LIKE :name', { name: `${baseName} (복사본%)` })
-      .getMany();
-
-    const numbers = existing
-      .map((w) => {
-        const match = w.name.match(/\(복사본(?: (\d+))?\)$/);
-        return match ? parseInt(match[1] || '1', 10) : 1;
-      })
-      .filter((n) => !isNaN(n));
-
-    const maxNum = numbers.length > 0 ? Math.max(...numbers) : 0;
-    const nextNum = maxNum + 1;
-    return `${baseName} (복사본${nextNum > 1 ? ' ' + nextNum : ' '})`;
   }
 
   async getProgress(id: number): Promise<{

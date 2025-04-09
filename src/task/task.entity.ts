@@ -31,7 +31,9 @@ export class Task {
   @ManyToOne(() => Workflow, (workflow) => workflow.tasks)
   workflow: Workflow;
 
-  @ManyToOne(() => Step, (step) => step.tasks)
+  @OneToMany(() => Task, (task) => task.currentStep, {
+    cascade: true,
+  })
   currentStep: Step;
 
   @ManyToOne(() => User, (user) => user.tasks)
